@@ -1,0 +1,33 @@
+version: "3"
+services:
+  producer:
+    build:
+      context: producer/
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - "mq"
+    volumes:
+      - ./producer:/usr/src/app
+    restart: on-failure
+  consumer-1:
+    build:
+      context: consumer/
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - "mq"
+    volumes:
+      - ./consumer:/usr/src/app
+    restart: on-failure
+  consumer-2:
+    build:
+      context: consumer/
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - "mq"
+    volumes:
+      - ./consumer:/usr/src/app
+    restart: on-failure
+  mq:
+    image: rabbitmq:3.8.3
+    expose:
+      - 5672
